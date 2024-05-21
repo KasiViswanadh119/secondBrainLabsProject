@@ -1,7 +1,8 @@
 // src/components/DataTable.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, TableSortLabel } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, TableSortLabel, Button } from '@mui/material';
+import { CSVLink } from 'react-csv';
 
 const DataTable = () => {
   const [books, setBooks] = useState([]);
@@ -53,8 +54,28 @@ const DataTable = () => {
     return 0;
   });
 
+  const headers = [
+    { label: 'Ratings Average', key: 'ratingsAverage' },
+    { label: 'Author Name', key: 'authorName' },
+    { label: 'Title', key: 'title' },
+    { label: 'First Publish Year', key: 'firstPublishYear' },
+    { label: 'Subject', key: 'subject' },
+    { label: 'Author Birth Date', key: 'authorBirthDate' },
+    { label: 'Author Top Work', key: 'authorTopWork' },
+  ];
+
   return (
     <Paper>
+      <CSVLink
+        data={sortedBooks}
+        headers={headers}
+        filename={`books_${new Date().toLocaleDateString()}.csv`}
+        style={{ textDecoration: 'none' }}
+      >
+        <Button variant="contained" color="primary" style={{ margin: '20px' }}>
+          Download CSV
+        </Button>
+      </CSVLink>
       <TableContainer>
         <Table>
           <TableHead>
